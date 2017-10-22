@@ -16,9 +16,7 @@ use yii\helpers\Url;
         <h4><a href="<?= Url::to(['/permit/access/permission']) ?>">Управление правами доступа</a></h4>
     </div>
 </div>
-<p>
-    <p></p>
-</p>
+<hr>
 
 <?php
 echo GridView::widget([
