@@ -1,6 +1,6 @@
 {
-    "name": "developeruz/yii2-db-rbac",
-    "description": "Dynamic control of access rights in YII2",
+    "name": "becksonq/yii2-db-rbac",
+    "description": "Dynamic control of access rights in YII2 by developeruz",
     "keywords": ["yii", "rbac"],
     "type": "yii2-extension",
     "license": "MIT",
