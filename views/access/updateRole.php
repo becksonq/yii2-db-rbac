@@ -41,12 +41,12 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
-            <?= Html::textInput('name', $role->name, ['class' => 'form-control']); ?>
+            <?= Html::textInput('name', $role->name, [ 'class' => 'form-control' ] ); ?>
         </div>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
-            <?= Html::textInput('description', $role->description, ['class' => 'form-control']); ?>
+            <?= Html::textInput('description', $role->description, [ 'class' => 'form-control' ] ); ?>
         </div>
 
         <div class="form-group">
