@@ -33,16 +33,20 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование
         }
         ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([
+		 'options' => [
+		 	'class' => 'form'
+		 ]
+		]); ?>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
-            <?= Html::textInput('name', $role->name); ?>
+            <?= Html::textInput('name', $role->name, ['class' => 'form-control']); ?>
         </div>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
-            <?= Html::textInput('description', $role->description); ?>
+            <?= Html::textInput('description', $role->description, ['class' => 'form-control']); ?>
         </div>
 
         <div class="form-group">
