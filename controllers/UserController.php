@@ -9,6 +9,7 @@
  */
 namespace developeruz\db_rbac\controllers;
 
+
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -17,25 +18,27 @@ use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 use developeruz\db_rbac\interfaces\UserRbacInterface;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 
 class UserController extends Controller
 {
     public $moduleName = 'permit';
 
-    public function beforeAction($action)
+    public function beforeAction( $action )
     {
-        if (empty(Yii::$app->controller->module->params['userClass'])) {
-            throw new BadRequestHttpException(Yii::t('db_rbac', 'Необходимо указать класс User в настройках модуля'));
+        if ( empty( Yii::$app->controller->module->params['userClass'] ) ) {
+            throw new BadRequestHttpException( Yii::t( 'db_rbac',
+                'Необходимо указать класс User в настройках модуля' ) );
         }
 
-        $user = new Yii::$app->controller->module->params['userClass']();
+        $user = new Yii::$app->controller->module->params['userClass'](); //var_dump( $user ); exit;
 
-        if (!$user instanceof UserRbacInterface) {
-            throw new BadRequestHttpException(Yii::t('db_rbac',
-                'UserClass должен реализовывать интерфейс developeruz\db_rbac\UserRbacInterface'));
+        if ( !$user instanceof UserRbacInterface ) {
+            throw new BadRequestHttpException( Yii::t( 'db_rbac',
+                'UserClass должен реализовывать интерфейс developeruz\db_rbac\UserRbacInterface' ) );
         }
 
-        return parent::beforeAction($action);
+        return parent::beforeAction( $action );
     }
 
     public function actions()
@@ -74,17 +77,48 @@ class UserController extends Controller
         return $behavior;
     }
 
-    public function actionView($id)
-    {
-        $roles = ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
-        $user_permit = array_keys(Yii::$app->authManager->getRolesByUser($id));
-        $user = $this->findUser($id);
-        return $this->render('view', [
-            'user' => $user,
-            'roles' => $roles,
-            'user_permit' => $user_permit,
-            'moduleName' => Yii::$app->controller->module->id
+    /**
+     * view all users
+     *
+     * @return string
+     */
+    public function actionIndex(){
+
+        $class = new Yii::$app->controller->module->params['userClass']();
+        $query = $class::find()->where(['status' => 10]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_ASC,
+                ]
+            ],
         ]);
+
+        return $this->render( 'index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * https://github.com/developeruz/yii2-db-rbac/blob/master/README.RU.md
+     */
+    public function actionView( $id )
+    {
+        $roles = ArrayHelper::map( Yii::$app->authManager->getRoles(), 'name', 'description' );
+        $user_permit = array_keys( Yii::$app->authManager->getRolesByUser( $id ) );
+        $user = $this->findUser( $id );
+
+        return $this->render( 'view', [
+            'user'        => $user,
+            'roles'       => $roles,
+            'user_permit' => $user_permit,
+            'moduleName'  => Yii::$app->controller->module->id
+        ] );
     }
 
     public function actionUpdate($id)
@@ -98,11 +132,17 @@ class UserController extends Controller
             }
         }
         return $this->redirect(Url::to([
-            "view",
+            "/" . Yii::$app->controller->module->id . "/user/view",
             'id' => $user->getId()
         ]));
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @method findIdentity \common\models\User
+     * @throws NotFoundHttpException
+     */
     private function findUser($id)
     {
         $class = new Yii::$app->controller->module->params['userClass']();

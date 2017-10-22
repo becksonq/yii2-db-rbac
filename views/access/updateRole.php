@@ -5,7 +5,13 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/** @var  $role  */
+/** @var  $role_permit  */
+/** @var  $permissions  */
+
 $this->title = Yii::t('db_rbac', 'Редактирование роли: ') . ' ' . $role->name;
+
+$this->params['breadcrumbs'][] = [ 'label' => 'Users', 'url' => '/permit/user/index' ];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Управление ролями'), 'url' => ['role']];
 $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Редактирование');
 ?>

@@ -10,6 +10,8 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = Yii::t('db_rbac', 'Новая роль');
+
+$this->params['breadcrumbs'][] =  ['label' => 'Users', 'url' => '/permit/user/index'];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('db_rbac', 'Управление ролями'), 'url' => ['role']];
 $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новая роль');
 ?>
@@ -29,17 +31,21 @@ $this->params['breadcrumbs'][] = Yii::t('db_rbac', 'Новая роль');
         <?php
         }
         ?>
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([
+        		'options' => [
+        				'class' => 'form',
+						]
+				]); ?>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Название роли')); ?>
-            <?= Html::textInput('name'); ?>
+            <?= Html::textInput('name', '',  [ 'class' => 'form-control' ]); ?>
             <?= Yii::t('db_rbac', '* только латинские буквы, цифры и _ -'); ?>
         </div>
 
         <div class="form-group">
             <?= Html::label(Yii::t('db_rbac', 'Текстовое описание')); ?>
-            <?= Html::textInput('description'); ?>
+            <?= Html::textInput('description', '',  [ 'class' => 'form-control' ]); ?>
         </div>
 
         <div class="form-group">

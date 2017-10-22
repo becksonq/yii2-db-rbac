@@ -5,8 +5,13 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/* @var $user \developeruz\db_rbac\controllers\UserController */
+/* @var $user_permit \developeruz\db_rbac\controllers\UserController */
+/* @var $roles \developeruz\db_rbac\controllers\UserController */
 ?>
+
 <h3><?=Yii::t('db_rbac', 'Управление ролями пользователя');?> <?= $user->getUserName(); ?></h3>
+
 <?php $form = ActiveForm::begin(['action' => ["update", 'id' => $user->getId()]]); ?>
 
 <?= Html::checkboxList('roles', $user_permit, $roles, ['separator' => '<br>']); ?>
@@ -16,4 +21,3 @@ use yii\widgets\ActiveForm;
 </div>
 
 <?php ActiveForm::end(); ?>
-
